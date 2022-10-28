@@ -85,7 +85,7 @@ console.log(itemList.previousSibling)
 var itemList = document.querySelector('#items')
 console.log(itemList.previousElementSibling)
 itemList.previousElementSibling.style.color='green'
-*/
+
 //createElement//
 
 //createDiv1//
@@ -119,3 +119,42 @@ var newEntry2 = document.querySelector('body .list-group-item')
 var newHeader2 = document.querySelector('header h2')
 console.log(newDiv2)
 newEntry2.insertBefore(newDiv2, newHeader2)
+*/
+
+var form = document.getElementById('addForm')
+var itemList = document.getElementById('items');
+
+form.addEventListener('submit', addItem);
+itemList.addEventListener('click', removeItem);
+
+
+function addItem(e){
+    e.preventDefault();
+
+    var newItem = document.getElementById('item').value;
+    var li = document.createElement('li');
+    li.className = 'list-group-item';
+    console.log(li);
+    li.appendChild(document.createTextNode(newItem));
+    itemList.appendChild(li)
+
+    var deletButton = document.createElement('button');
+    deletButton.className = 'btn-danger float-right delete';
+    deletButton.appendChild(document.createTextNode('X'));
+    li.appendChild(deletButton)
+
+    var editButton = document.createElement('button');
+    editButton.className = 'btn btn-sm float-right Edit';
+    editButton.appendChild(document.createTextNode('Edit'));
+    li.appendChild(editButton)
+}
+
+function removeItem(e){
+    if(e.target.classList.contains('delete')){
+        if(confirm('Are you sure?')){
+            var li = e.target.parentElement
+            itemList.removeChild(li)
+        }
+    }
+
+}
