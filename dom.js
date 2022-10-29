@@ -120,23 +120,28 @@ var newHeader2 = document.querySelector('header h2')
 console.log(newDiv2)
 newEntry2.insertBefore(newDiv2, newHeader2)
 */
-
-var form = document.getElementById('addForm')
+//Edit and Delete//
+var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
+var filter = document.getElementById('filter')
 
 form.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItem);
+filter.addEventListener('keyup', filterItems);
 
 
 function addItem(e){
     e.preventDefault();
 
-    var newItem = document.getElementById('item').value;
+    var inputValue = document.getElementById('item').value;
+    var descriptionNode = document.getElementById('description').value;
     var li = document.createElement('li');
     li.className = 'list-group-item';
-    console.log(li);
-    li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(inputValue));
+    li.appendChild(document.createTextNode(' ' + descriptionNode));
     itemList.appendChild(li)
+
+
 
     var deletButton = document.createElement('button');
     deletButton.className = 'btn-danger float-right delete';
@@ -158,3 +163,16 @@ function removeItem(e){
     }
 
 }
+function filterItems(e){
+    var text = e.target.value.toLowerCase();
+    var items = itemList.getElementsByTagName('li');
+    Array.from(items).forEach(function(item){
+        var itemName = item.firstChild.textContent;
+        if(itemName.toLowerCase().indexOf(text) !=-1 ){
+            item.style.display = 'block';
+        }else{
+            item.style.display = 'none'; 
+        }
+    })
+}
+
